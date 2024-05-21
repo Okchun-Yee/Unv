@@ -63,6 +63,7 @@ int findLRU(CacheLine* cache, int setStart, int associativity) {
 }
 
 void writeBack(CacheLine* cache, int index, int blockSize) {
+	total_c++;
 	// 캐시 라인의 dirty bit를 확인하여 메모리에 쓰는 작업을 수행합니다.
 	if (cache[index].dirty) {
 		printf("Write-back :  %d, way %d\n", index / blockSize, index % blockSize);
