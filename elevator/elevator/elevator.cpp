@@ -1,4 +1,4 @@
-﻿#define _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <Windows.h>
 #include <string.h>
@@ -76,10 +76,10 @@ void print_stack(Stack *s) {
 	if (!is_empty(s)) {
 		for (int i = 0;i<=s->top; i++) {
 			if (s->stack[i] == NULL) break;
-			printf("| %c, ", s->stack[i]);
+			printf("| %c ", s->stack[i]);
 		}
 		// 현재 탑승중인 인원 출력
-		printf(" | \t=PEOPLE : %2d=",(s->top)+1);
+		printf(" | \t[탑승인원 : %2d명]",(s->top)+1);
 	}
 	//스택에 데이터가 없을 시 빈 공간 출력
 	else printf("| |");
@@ -87,8 +87,8 @@ void print_stack(Stack *s) {
 }
 //elevator 상태 출력 함수
 void print_elevator(Stack* s, int in_f, int out_f) {
-	printf("엘리베이터 현재 층: %d\n", in_f);
-	printf("목표 층: %d\n", out_f);
+	printf("엘리베이터 현재 층: [%2d]F\n", in_f);
+	printf("엘리베이터 목표 층: [%2d]F\n", out_f);
 	//엘리베이터 상태 출력 반복문
 	for (int i = FLOOR; i > 0; i--) {
 		//매개변수와 같을시 현재 층수 + 스택 출력 
@@ -120,14 +120,23 @@ void moveElevator(Stack* s, int *in_f, int out_f) {
 	clearScreen();
 	//하차한 인원 출력
 	print_elevator(s,*in_f, out_f);
-	printf("엘리베이터가 %d층에 도착했습니다.\n", out_f);
+	printf("엘리베이터가 [%2d]층에 도착했습니다.\n", out_f);
 	Sleep(1000); // 1초 대기
 }
 //하차 처리 POP()
 void get_out(Stack* s) {
 	int num = 0;
-	printf("\n몇명이 내립니까? : ");
-	scanf("%d", &num);
+	bool check=false;	//탑승인원 반복문을 위한 Bool 변수
+	while (!check) {
+		printf("\n몇명이 내립니까? : ");
+		scanf("%d", &num);
+		//하차 인원이 총 탑승인원보다 많은 예외 처리
+		if (num > (s->top)+1) {
+			printf("유효하지않은 입력입니다. 현재 탑승 인원을 확인해주세요. \n");
+			check = false;
+		}
+		else check = true;
+	}
 	for (int i = 0; i < num; i++) {
 		pop(s);
 	}
@@ -152,7 +161,7 @@ int main(void) {
 
 		//1-10 사이까지만 입력
 		if (out_f >10|| out_f <1) {
-			printf("유효하지 않은 층입니다. 1-10 사이의 층을 입력하세요.\n");
+			printf("유효하지 않은 층입니다. [1-10] 사이의 층을 입력하세요.\n");
 			Sleep(500); // 0.5초 대기
 		}
 		else {
