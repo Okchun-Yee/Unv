@@ -1,0 +1,4 @@
+﻿  File_Handler_Base.cpp
+  LinkedList.cpp
+  코드를 생성하고 있습니다...
+C:\Users\HanChaeHoon\OneDrive\바탕 화면\system\File_Handler_Base\File_Handler_Base\File_Handler_Base.cpp(175,1): error C4700: 초기화되지 않은 'int_Mfp' 지역 변수를 사용했습니다.
