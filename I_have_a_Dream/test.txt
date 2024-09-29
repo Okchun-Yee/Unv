@@ -1,0 +1,2 @@
+Hello, this is a test file with numbers: 42, -15, 100, and 3.14.
+Another line with 99 and -10.
