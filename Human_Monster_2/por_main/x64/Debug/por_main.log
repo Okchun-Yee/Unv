@@ -1,0 +1,3 @@
+﻿  por_main.cpp
+C:\MyProgramms\Human_Monster_2\por_main\por_main.cpp(61,14): warning C4101: 'destRect' :참조되지 않은 지역 변수입니다.
+  por_main.vcxproj -> C:\MyProgramms\Human_Monster_2\x64\Debug\por_main.exe
