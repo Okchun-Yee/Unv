@@ -1,4 +1,4 @@
-﻿#define SDL_MAIN_HANDLED
+#define SDL_MAIN_HANDLED
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
@@ -44,7 +44,7 @@ void end_credit(int movecount) {
 int main(int argc, char* argv[])
 {
 	SDL_Window* window = nullptr;
-
+	clock_t start = clock();
 	srand(static_cast<unsigned int>(time(NULL)));  //난수 초기화
 
 	// SDL 초기화
@@ -205,13 +205,27 @@ int main(int argc, char* argv[])
 			running = 1;
 		}
 
-		string text = "Move Count: " + to_string(movecount);
+		clock_t now = clock();
+		int elapsed_time = (int)(now - start) / CLOCKS_PER_SEC;
+		if (elapsed_time >= 30.0) {
+			end_credit(movecount);
+			cout << "시간 초과, Game Over!.\n";
+			running = 1;
+		}
+
+		string text = "Move Count: " + to_string(movecount);		//이동 횟수 카운트
+		string time_text = "Time : " + to_string(elapsed_time);		//현재 진행중인 초 
 
 		// 메시지 루프 안에 텍스트 렌더링 코드 추가
 		SDL_Color textColor = { 0, 0, 0 }; // 검정색
 		SDL_Texture* textTexture = renderText(text, pFont, textColor, renderer);
 		if (textTexture) {
 			SDL_Rect textRect = { 0, 0, 160, 60 }; // 위치와 크기 설정
+			SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
+			SDL_DestroyTexture(textTexture); // 텍스처 해제
+
+			textTexture = renderText(time_text, pFont, textColor, renderer);
+			textRect = { 1040, 0, 160, 60 }; // 위치와 크기 설정
 			SDL_RenderCopy(renderer, textTexture, NULL, &textRect);
 			SDL_DestroyTexture(textTexture); // 텍스처 해제
 		}
