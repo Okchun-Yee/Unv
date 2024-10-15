@@ -1,54 +1,53 @@
 #pragma once
 #define WIDTH 1200		
 #define HEIGHT 600
-#define RECT_SIZE 50  // ³×¸ğÀÇ Å©±â 50px
+#define RECT_SIZE 50  // ë„¤ëª¨ì˜ í¬ê¸° 50px
 
 
-//ÇÔ¼ö ¿øÇü ¼±¾ğ
+//í•¨ìˆ˜ ì›í˜• ì„ ì–¸
 void clear();
 void field();
-//ÇÔ¼ö ¿øÇü ¼±¾ğºÎ
-SDL_Texture* renderText(const std::string& text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer);	//ÆùÆ® »ç¿ë ÇÔ¼ö
-SDL_Texture* loadTexture(const char* filePath, SDL_Renderer* renderer);	//ÀÌ¹ÌÁö »ç¿ë ÇÔ¼ö
-//void drawWalls(SDL_Renderer* renderer);
+SDL_Texture* renderText(const std::string& text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer);	//í°íŠ¸ ì‚¬ìš© í•¨ìˆ˜
+SDL_Texture* loadTexture(const char* filePath, SDL_Renderer* renderer);	//ì´ë¯¸ì§€ ì‚¬ìš© í•¨ìˆ˜
+void end_credit(int movecount);	//ì—”ë”©ì— ì´ë™ íšŸìˆ˜ ì¶œë ¥
 
 
 
 class Gameobject {
 protected:
-	int distance;   //ÇÑ¹ø ÀÌµ¿°Å¸®
-	int x, y;   //ÇöÀçÀ§Ä¡ 
+	int distance;   //í•œë²ˆ ì´ë™ê±°ë¦¬
+	int x, y;   //í˜„ì¬ìœ„ì¹˜ 
 public:
-	Gameobject(int startX, int startY, int distance) {  //ÃÊ±â À§Ä¡¿Í ÀÌµ¿ °Å¸®
+	Gameobject(int startX, int startY, int distance) {  //ì´ˆê¸° ìœ„ì¹˜ì™€ ì´ë™ ê±°ë¦¬
 		this->x = startX;
 		this->y = startY;
 		this->distance = distance;
 	}
-	virtual ~Gameobject() {};   //¼Ò¸êÀÚ
+	virtual ~Gameobject() {};   //ì†Œë©¸ì
 	void move(int pos) {
-		if (pos == 1) {  // ¿ŞÂÊÀ¸·Î ÀÌµ¿
+		if (pos == 1) {  // ì™¼ìª½ìœ¼ë¡œ ì´ë™
 			this->x = (this->x - this->distance >= 0) ? this->x - this->distance : this->x + this->distance;
 		}
-		else if (pos == 2) {  // ¾Æ·¡·Î ÀÌµ¿
+		else if (pos == 2) {  // ì•„ë˜ë¡œ ì´ë™
 			this->y = (this->y + this->distance <= HEIGHT - 50) ? this->y + this->distance : this->y - this->distance;
 		}
-		else if (pos == 3) {  // À§·Î ÀÌµ¿
+		else if (pos == 3) {  // ìœ„ë¡œ ì´ë™
 			this->y = (this->y - this->distance >= 0) ? this->y - this->distance : this->y + this->distance;
 		}
-		else if (pos == 4) {  // ¿À¸¥ÂÊÀ¸·Î ÀÌµ¿
+		else if (pos == 4) {  // ì˜¤ë¥¸ìª½ìœ¼ë¡œ ì´ë™
 			this->x = (this->x + this->distance <= WIDTH - 50) ? this->x + this->distance : this->x - this->distance;
 		}
 	}
 
 
-	//ÀÌµ¿ ÈÄ x,y ¸¦ »õ À§Ä¡·Î º¯°æ
-	virtual char getShape() = 0;    //°´Ã¼ÀÇ ¸ğ¾çÀ» ³ªÅ¸³»´Â ¹®ÀÚ ->Human = H / Monster = M / Food = @
+	//ì´ë™ í›„ x,y ë¥¼ ìƒˆ ìœ„ì¹˜ë¡œ ë³€ê²½
+	virtual char getShape() = 0;    //ê°ì²´ì˜ ëª¨ì–‘ì„ ë‚˜íƒ€ë‚´ëŠ” ë¬¸ì ->Human = H / Monster = M / Food = @
 
-	//Ãæµ¹ ÆÇº°
-	int getX() { return x; }    //x À§Ä¡ ¹İÈ¯ (ÀÚ½Å, »ó´ë)
-	int getY() { return y; }    //y À§Ä¡ ¹İÈ£³ª (ÀÚ½Å, »ó´ë)
-	bool collide(Gameobject* p) {   //*p ´Â »ó´ë
-		if (this->x == p->getX() && this->y == p->getY()) return true;  //ÀÚ½Å°ú »ó´ëÀÇ Ãæµ¹È®ÀÎ
+	//ì¶©ëŒ íŒë³„
+	int getX() { return x; }    //x ìœ„ì¹˜ ë°˜í™˜ (ìì‹ , ìƒëŒ€)
+	int getY() { return y; }    //y ìœ„ì¹˜ ë°˜í˜¸ë‚˜ (ìì‹ , ìƒëŒ€)
+	bool collide(Gameobject* p) {   //*p ëŠ” ìƒëŒ€
+		if (this->x == p->getX() && this->y == p->getY()) return true;  //ìì‹ ê³¼ ìƒëŒ€ì˜ ì¶©ëŒí™•ì¸
 		else return false;
 	}
 };
@@ -65,7 +64,7 @@ public:
 class Monster :public Gameobject {
 public:
 	Monster(int startX, int startY, int distance) :Gameobject(startX, startY, distance) {}
-	Monster() : Gameobject(100, 100, 0) {}	//±âº»»ı¼ºÀÚ
+	Monster() : Gameobject(100, 100, 0) {}	//ê¸°ë³¸ìƒì„±ì
 
 	void setPos(int newX, int newY, int newDistance) {
 		x = newX;
