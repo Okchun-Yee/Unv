@@ -13,10 +13,10 @@ using namespace std;
 #define row_SIZE 10
 #define col_SIZE 20
 #define SIZE 6
-#define monster_ai() (rand() % 4 + 1)   //¸ó½ºÅÍÀÇ Çàµ¿ ¾ç½ÄÀ» °áÁ¤ÇÏ´Â ¸ÅÅ©·Î ÇÔ¼ö Á¤ÀÇ
-#define spon() (rand() % 10+1)  //¸ó½ºÅÍ »ı¼º À§Ä¡ ·£´ı
+#define monster_ai() (rand() % 4 + 1)   //ëª¬ìŠ¤í„°ì˜ í–‰ë™ ì–‘ì‹ì„ ê²°ì •í•˜ëŠ” ë§¤í¬ë¡œ í•¨ìˆ˜ ì •ì˜
+#define spon() (rand() % 10+1)  //ëª¬ìŠ¤í„° ìƒì„± ìœ„ì¹˜ ëœë¤
 
-// ÆùÆ®¿Í ÅØ½ºÆ® ·»´õ¸µ ÇÔ¼ö
+// í°íŠ¸ì™€ í…ìŠ¤íŠ¸ ë Œë”ë§ í•¨ìˆ˜
 SDL_Texture* renderText(const std::string& text, TTF_Font* font, SDL_Color color, SDL_Renderer* renderer) {
 	SDL_Surface* surface = TTF_RenderText_Solid(font, text.c_str(), color);
 	if (!surface) {
@@ -24,35 +24,37 @@ SDL_Texture* renderText(const std::string& text, TTF_Font* font, SDL_Color color
 		return nullptr;
 	}
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_FreeSurface(surface);  // ¼­ÇÇ½º ¸Ş¸ğ¸® ÇØÁ¦
+	SDL_FreeSurface(surface);  // ì„œí”¼ìŠ¤ ë©”ëª¨ë¦¬ í•´ì œ
 	return texture;
 }
 
-// ÀÌ¹ÌÁö ·Îµå ÇÔ¼ö
+// ì´ë¯¸ì§€ ë¡œë“œ í•¨ìˆ˜
 SDL_Texture* loadTexture(const char* filePath, SDL_Renderer* renderer) {
 	SDL_Surface* tempSurface = IMG_Load(filePath);
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer, tempSurface);
-	SDL_FreeSurface(tempSurface);  // ¼­ÆäÀÌ½º ¸Ş¸ğ¸® ÇØÁ¦
+	SDL_FreeSurface(tempSurface);  // ì„œí˜ì´ìŠ¤ ë©”ëª¨ë¦¬ í•´ì œ
 	return texture;
 }
+//ì½˜ì†”ì°½ ì§€ìš°ê¸°
+void clear() {
+	Sleep(1000);
+	system("cls");
+}
 
-//// Å×µÎ¸®¿¡ º®À» ±×¸®´Â ÇÔ¼ö
-//void drawWalls(SDL_Renderer* renderer) {
-//	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);  // º® »ö»óÀ» Èò»öÀ¸·Î ¼³Á¤
-//
-//	// À§ÂÊ º®
-//	SDL_Rect topWall = { 0, 0, WIDTH, WALL_SIZE };
-//	SDL_RenderFillRect(renderer, &topWall);
-//
-//	// ¾Æ·¡ÂÊ º®
-//	SDL_Rect bottomWall = { 0, HEIGHT - WALL_SIZE, WIDTH, WALL_SIZE };
-//	SDL_RenderFillRect(renderer, &bottomWall);
-//
-//	// ¿ŞÂÊ º®
-//	SDL_Rect leftWall = { 0, 0, WALL_SIZE, HEIGHT };
-//	SDL_RenderFillRect(renderer, &leftWall);
-//
-//	// ¿À¸¥ÂÊ º®
-//	SDL_Rect rightWall = { WIDTH - WALL_SIZE, 0, WALL_SIZE, HEIGHT };
-//	SDL_RenderFillRect(renderer, &rightWall);
-//}
+//í•„ë“œë¥¼ ê·¸ë¦¬ëŠ” í•¨ìˆ˜
+void field() {
+	int row = row_SIZE;
+	int col = col_SIZE;
+
+	for (int i = 0; i < row; i++) {
+		for (int j = 0; j < col; j++) {
+			::cout << "=";
+		}
+		::cout << endl;
+	}
+	return;
+}
+//ì—”ë”© ì¶œë ¥
+void end_credit(int movecount) {
+	::cout << "ì´ ì´ë™ íšŸìˆ˜ : " << movecount << endl;
+}
