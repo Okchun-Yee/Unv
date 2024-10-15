@@ -12,44 +12,25 @@ using namespace std;
 
 #define row_SIZE 10
 #define col_SIZE 20
-#define SIZE 6
+#define SIZE 10
 #define monster_ai() (rand() % 4 + 1)   //몬스터의 행동 양식을 결정하는 매크로 함수 정의
 #define spon() (rand() % 10+1)  //몬스터 생성 위치 랜덤
 
 int rectX = 0;  // 초기 X 위치
 int rectY = 0;  // 초기 Y 위치
 
-void clear() {
-	Sleep(1000);
-	system("cls");
-}
 
-void field() {
-	int row = row_SIZE;
-	int col = col_SIZE;
-
-	for (int i = 0; i < row; i++) {
-		for (int j = 0; j < col; j++) {
-			::cout << "=";
-		}
-		::cout << endl;
-	}
-	return;
-}
-
-void end_credit(int movecount) {
-	::cout << "총 이동 횟수 : " << movecount << endl;
-}
 
 int main(int argc, char* argv[])
 {
 	SDL_Window* window = nullptr;
 	clock_t start = clock();
+	SDL_Renderer* renderer;	//렌더러 할당
 	srand(static_cast<unsigned int>(time(NULL)));  //난수 초기화
 
 	// SDL 초기화
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		::cout << "SDL Initialization Fail: %s\n", SDL_GetError();
+		::cout << "SDL ERR " << SDL_GetError();
 		return 1;
 	}
 	//SDL 이미지 초기화
@@ -59,7 +40,7 @@ int main(int argc, char* argv[])
 	}
 	//TTF 초기화
 	if (TTF_Init() == -1) {
-		::cout << "SDL_ttf Initialization Fail: " << TTF_GetError() << endl;
+		::cout << "TTF_ERR" << TTF_GetError() << endl;
 		SDL_Quit();
 		return 1;
 	}
@@ -83,7 +64,8 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);  //렌더러 생성
+	renderer = SDL_CreateRenderer(window, -1, 0);  //렌더러 할당
+
 	Human human1(0, 0, RECT_SIZE);  //Human 객체 생성
 	Monster monster[SIZE];  //Monster 객체 생성
 	Food food1(1000, 500, RECT_SIZE);   //Food 객체 생성
@@ -107,13 +89,13 @@ int main(int argc, char* argv[])
 	int movecount = 0;
 	int cnt = 0;
 	bool check = false;
-
 	while (!running) {
 		if ( movecount % 10 == 0 && cnt < SIZE) {
 			// 조건이 만족될 때만 실행
 			if (!check) {
 				check = true;  // 조건을 만족했음을 기록
-				monster[cnt].setPos(300, 300, RECT_SIZE);    //10회 마다 새로운 몬스터 추가 : 최대 10번
+				monster[cnt].setPos(spon()*100, monster_ai()*100, RECT_SIZE);    //10회 마다 새로운 몬스터 추가 : 최대 10번	
+				//X : 100 ~ 1000, Y : 100 ~ 400 랜덤하게 생성
 				cnt++;
 			}
 		}
@@ -123,28 +105,33 @@ int main(int argc, char* argv[])
 				running = 1;
 			}
 			if (event.type == SDL_KEYDOWN) {
+				if (event.key.keysym.sym == SDLK_ESCAPE) running = 1;
+
 				randFood = rand() % 5;
 				if (randFood == 3 || randFood == 0) {
 					food1.move(rand() % 4 + 1);
 				}
-				if (event.key.keysym.sym == SDLK_ESCAPE) running = 1;
 				switch (event.key.keysym.sym) {
 				case SDLK_a:
+				case SDLK_LEFT:
 					movecount++;
 					human1.move(1);
 					check = false;
 					break;
 				case SDLK_s:
+				case SDLK_DOWN:
 					movecount++;
 					human1.move(2);
 					check = false;
 					break;
 				case SDLK_w:
+				case SDLK_UP:
 					movecount++;
 					human1.move(3);
 					check = false;
 					break;
 				case SDLK_d:
+				case SDLK_RIGHT:
 					movecount++;
 					human1.move(4);
 					check = false;
