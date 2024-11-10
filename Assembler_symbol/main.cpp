@@ -18,6 +18,20 @@ FILE* File_Open(const char* name) {
 	}
 }
 
+FILE* File_Open_w(const char* name) {
+	FILE* fp;
+	fp = fopen(name, "w");
+	// 파일 확인
+	if (fp == NULL) {
+		printf("%s : TW파일 열기 실패\n", name);
+		return NULL;
+	}
+	else {
+		printf("%s : W파일 열기 성공\n", name);
+		return fp;
+	}
+}
+
 int main(void) {
 	//STRING FILE
 	FILE* string_Mfp = NULL;
@@ -30,5 +44,21 @@ int main(void) {
 		counter(string_Mfp);
 		fclose(string_Mfp);  // 파일 닫기
 	}
+
+	for (const auto& entry : label_map) {
+		cout << "Label: " << entry.first << ", Line: " << entry.second << endl;
+	}
+
+	string_Mfp = File_Open(file_name);
+	FILE* end_fp = NULL;
+	file_name = "output.txt";
+	end_fp = File_Open_w(file_name);
+	if (end_fp != NULL) {
+		//NULL이 아닐시 실행
+		replaceLabelsInFile(string_Mfp, end_fp);
+		fclose(string_Mfp);  // 파일 닫기
+		fclose(end_fp);  // 파일 닫기
+	}
+
 	return 0;
 }
