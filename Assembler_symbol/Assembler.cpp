@@ -43,6 +43,8 @@ void storeLabel(const char* label, int line_number) {
 int counter(FILE* fp) {
     char buffer[SIZE];  // 임시로 문자열 담을 버퍼
     int word_cnt = 0;   // 단어 수 셀 변수
+    char* pre_token = NULL;
+    int pre_word_cnt = 0;
 
     while (fgets(buffer, sizeof(buffer), fp) != NULL) {  // 버퍼에 문자열 전체를 담음
         int instruction_length = sizeof(instruc) / sizeof(instruc[0]);
@@ -54,8 +56,12 @@ int counter(FILE* fp) {
             // 레이블 찾기: ':'로 끝나는지 확인하고 ':' 제거
             if (token[strlen(token) - 1] == ':') {
                 token[strlen(token) - 1] = '\0';  // ':' 제거
-                cout << "Label : " << token << " " << word_cnt << endl;
+                //cout << "Label : " << token << " " << word_cnt << endl;
                 storeLabel(token, word_cnt);  // 레이블과 해당 줄 번호 저장
+            }
+            else if (strcmp(token, "DB") == 0 || strcmp(token, "DW") == 0) {
+                //cout << pre_token << " " << pre_word_cnt << endl;
+                storeLabel(pre_token, pre_word_cnt);
             }
 
             // 명령어인지 확인
@@ -63,6 +69,7 @@ int counter(FILE* fp) {
             for (int i = 0; i < instruction_length; i++) {
                 if (strcmp(token, instruc[i]) == 0) {
                     is_instruction = true;
+                    word_cnt++;
                     break;
                 }
             }
@@ -71,11 +78,12 @@ int counter(FILE* fp) {
                 find_Registers(token, &word_cnt);  // 레지스터 확인
             }
 
+            pre_token = token;  //이전 토근 저장
+            pre_word_cnt = word_cnt;   //이전 토근 주소번호 저장
             token = strtok(NULL, "\t\n,+[] ");  // 다음 토큰
         }
         word_cnt++;
     }
-
     return 1;
 }
 
@@ -92,7 +100,8 @@ void find_Registers(char* token, int* cnt) {
     }
 
     // 명령어도 아니고 레지스터도 아닌 경우, IP 주소 증가
-    if (!is_register && isalpha(token[0])) {
+    if (!is_register) {
+        //cout << token << " " << *cnt << endl;
         (*cnt)++;
     }
 }

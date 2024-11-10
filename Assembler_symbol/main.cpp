@@ -32,7 +32,6 @@ FILE* File_Open_Write(const char* name) {
 	}
 }
 
-
 int main(void) {
 	//STRING FILE
 	FILE* string_Mfp = NULL;
@@ -44,6 +43,11 @@ int main(void) {
 		//NULL이 아닐시 실행
 		counter(string_Mfp);
 		fclose(string_Mfp);  // 파일 닫기
+	}
+
+	//딕셔너리 출력
+	for (const auto& entry : label_map) {
+		cout << entry.first << ": " << entry.second << endl;
 	}
 
 	string_Mfp = File_Open_Read(file_name);
