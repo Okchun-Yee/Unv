@@ -32,6 +32,7 @@ FILE* File_Open_Write(const char* name) {
 	}
 }
 
+
 int main(void) {
 	//STRING FILE
 	FILE* string_Mfp = NULL;
