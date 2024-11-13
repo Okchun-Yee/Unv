@@ -47,7 +47,7 @@ int main(void) {
 
 	//딕셔너리 출력
 	for (const auto& entry : label_map) {
-		cout << entry.first << ": " << entry.second << endl;
+		cout << entry.first << "\t : " << entry.second << endl;
 	}
 
 	string_Mfp = File_Open_Read(file_name);
