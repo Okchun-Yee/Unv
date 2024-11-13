@@ -60,12 +60,12 @@ int counter(FILE* fp) {
             // 레이블 찾기: ':'로 끝나는지 확인하고 ':' 제거
             if (token[strlen(token) - 1] == ':') {
                 token[strlen(token) - 1] = '\0';  // ':' 제거
-                //cout << "Label : " << token << " " << word_cnt << endl;
+                //cout << token << "\t" << "sym" << endl;
                 storeLabel(token, "sym");  // 레이블과 해당 줄 번호 저장
             }
             //변수 선언부 찾기 현재 토큰이 DW나 DB일시 그 이전 토큰을 변수 선언부라고 판단
             else if (strcmp(token, "DB") == 0 || strcmp(token, "DW") == 0) {
-                //cout << pre_token << " " << pre_word_cnt << endl;
+                //cout << token << "\t" << "sym" << endl;
                 storeLabel(pre_token, "sym");
             }
 
@@ -74,6 +74,7 @@ int counter(FILE* fp) {
             for (int i = 0; i < instruction_length; i++) {
                 if (strcmp(token, instruc[i]) == 0) {
                     storeLabel(token, "op");
+                    //cout << token << "\t" << "op" << endl;
                     is_instruction = true;
                     word_cnt++;
                     break;
@@ -102,19 +103,24 @@ void find_Registers(char* token, int* cnt) {
     for (int i = 0; i < register_count; i++) {
         if (strcmp(token, registers[i]) == 0) {
             check = true;
+            storeLabel(token, "reg16");
+            //cout << token << "\t" << "reg16" << endl;
+            break;
+        }
+        else {
             for (int j = 0; j < byteReigster_count; j++) {
-                if (strcmp(token, byteReigsters[i]) == 0) {
+                if (strcmp(token, byteReigsters[j]) == 0) {
+                    check = true;
                     storeLabel(token, "reg8");
+                    //cout << token << "\t" << "reg8" << endl;
                     break;
                 }
             }
-            storeLabel(token, "reg16");
-            break;
         }
     }
     // 명령어도 아니고 레지스터도 아닌 경우 + 첫글자가 문자가 아닌경우 = 상수, IP 주소 증가
     if (!check&&!isalpha(token[0])) {
-        //cout << token << " " << *cnt << endl;
+        //cout << token << "\t" << "num" << endl;
         storeLabel(token, "num");
         (*cnt)++;
     }

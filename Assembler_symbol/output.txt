@@ -1,8 +1,8 @@
 op reg16 num 
 op reg16 num 
-op BL num 
+op reg8 num 
 
-op AL BL 
+op reg8 reg8 
 op reg16 reg16 
 
 sym op reg16 sym 
@@ -18,7 +18,7 @@ op sym
 
 op reg16 num 
 op reg16 num 
-op BL num 
+op reg8 num 
 op reg16 reg16 reg16 
 
 op reg16 reg16 
