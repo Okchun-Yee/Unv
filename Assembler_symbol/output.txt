@@ -1,55 +1,55 @@
-MOV AX 257 
-MOV CX 254 
-MOV BL 10H 
+op reg16 num 
+op reg16 num 
+op BL num 
 
-MOV AL BL 
-MOV BX DX 
+op AL BL 
+op reg16 reg16 
 
-15 MOV AX 123 
-MOV BX 127 
+sym op reg16 sym 
+op reg16 sym 
 
-MOV 123 AX 
-MOV 127 BX 
-MOV 131 AX 
-MOV 135 BX 
+op sym reg16 
+op sym reg16 
+op sym reg16 
+op sym reg16 
 
-JA 15 
-JB 60 
+op sym 
+op sym 
 
-ADD AX 257 
-ADD CX 16 
-ADD BL 10 
-ADD AX BX SI 
+op reg16 num 
+op reg16 num 
+op BL num 
+op reg16 reg16 reg16 
 
-ADD DI AX 
-ADD BX DX 
+op reg16 reg16 
+op reg16 reg16 
 
-60 SUB AX 257 
-64 SUB AX BX 
-SUB CX AX 
-CMP BX DX 
+sym op reg16 num 
+sym op reg16 reg16 
+op reg16 reg16 
+op reg16 reg16 
 
-72 SUB AX 127 
-76 SUB BX 123 
+sym op reg16 sym 
+sym op reg16 sym 
 
-MOV 135 AX 
-MOV 131 BX 
+op sym reg16 
+op sym reg16 
 
-88 SUB 127 AX 
-92 SUB 123 BX 
+sym op sym reg16 
+sym op sym reg16 
 
-JZ 64 
-JA 72 
-JB 76 
-JAE 88 
-JBE 92 
+JZ sym 
+op sym 
+op sym 
+op sym 
+op sym 
 
-INC AX 
-DEC DX 
+op reg16 
+op reg16 
 
-INT 21H 
+op num 
 
-123 DW 259 
-127 DW 256 
-131 DB 17 
-135 DB 254 
+sym op num 
+sym op num 
+sym op num 
+sym op num 

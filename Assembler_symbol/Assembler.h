@@ -12,4 +12,4 @@ void replaceLabel(FILE* inputFile, FILE* outputFile);
 extern const char* registers[];	//레지스터 정의
 extern const char* instruc[];	//명령어 정의
 
-extern std::map<std::string, int> label_map;  // 레이블을 저장할 map
+extern std::map<std::string, const char*> label_map;  // 레이블을 저장할 map

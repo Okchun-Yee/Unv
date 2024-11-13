@@ -9,11 +9,11 @@ FILE* File_Open_Read(const char* name) {
 	fp = fopen(name, "r");
 	// 파일 확인
 	if (fp == NULL) {
-		printf("%s : 읽기 파일 열기 실패\n", name);
+		//printf("%s : 읽기 파일 열기 실패\n", name);
 		return NULL;
 	}
 	else {
-		printf("%s : 읽기 파일 열기 성공\n", name);
+		//printf("%s : 읽기 파일 열기 성공\n", name);
 		return fp;
 	}
 }
@@ -23,11 +23,11 @@ FILE* File_Open_Write(const char* name) {
 	fp = fopen(name, "w");
 	// 파일 확인
 	if (fp == NULL) {
-		printf("%s : 쓰기 파일 열기 실패\n", name);
+		//printf("%s : 쓰기 파일 열기 실패\n", name);
 		return NULL;
 	}
 	else {
-		printf("%s : 쓰기 파일 열기 성공\n", name);
+		//printf("%s : 쓰기 파일 열기 성공\n", name);
 		return fp;
 	}
 }
