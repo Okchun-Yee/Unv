@@ -3,8 +3,6 @@
 #include <string>
 
 int main() {
-	Playfair pa1("assasinator", "a/b");
-	pa1.makeTable();
-	pa1.showTable();
+	Playfair key("assasinator", "a/z");
 	return 0;
 }

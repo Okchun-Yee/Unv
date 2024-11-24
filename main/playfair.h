@@ -5,6 +5,9 @@
 using namespace std;
 
 #define SIZE 25
+#define COL 5
+#define ROW 5
+
 class Playfair
 {
 	string mTable[SIZE];
