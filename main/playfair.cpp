@@ -5,7 +5,6 @@
 #include <map> //딕셔너리 구조 사용
 #include <string>
 #include <algorithm> // std::find
-#include <utility> // std::pair를 사용하려면 필요
 
 using namespace std;
 
@@ -63,6 +62,7 @@ void Playfair::showTable() {
 		if (i % 5 == 0 && i != 0) cout << endl;
 		cout << setw(3) << this->mTable[i] << " ";
 	}
+	cout << endl;
 }
 
 string Playfair::makeEncryption(string mEncryption) {
@@ -94,7 +94,7 @@ string Playfair::makeEncryption(string mEncryption) {
 
 		int row1 = index1 / ROW, col1 = index1 % COL;
 		int row2 = index2 / ROW, col2 = index2 % COL;
-		cout << row1 << col1 << " " << row2 << col2 << endl;
+		//cout << row1 << col1 << " " << row2 << col2 << endl;
 		// 같은 열
 		if (col1 == col2) {
 			row1 = (row1 + 1) % ROW;

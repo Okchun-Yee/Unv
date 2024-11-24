@@ -21,6 +21,7 @@ public:
 	Playfair(string mKey, string mPair) {
 		this->mKey = mKey;
 		this->mPair = mPair;
+		makeTable();
 	}
 	void makeTable();	//Table 만들기 멤버함수
 	void showTable();	//Table 출력 멤버 함수
