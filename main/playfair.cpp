@@ -60,7 +60,8 @@ void Playfair::makeTable() {
 void Playfair::showTable() {
 	for (int i = 0; i < SIZE; i++) {
 		if (i % 5 == 0 && i != 0) cout << endl;
-		cout << setw(3) << this->mTable[i] << " ";
+		cout.width(3);
+		cout << this->mTable[i] << " ";
 	}
 	cout << endl;
 }
@@ -68,19 +69,39 @@ void Playfair::showTable() {
 string Playfair::makeEncryption(string mEncryption) {
 	//평문을 암호문으로 바꾸기 위한 작업
 	vector<vector<string>> str;
-	for (int i = 0; i < mEncryption.size(); i += 2) {
-		string firstStr = string(1, mEncryption[i]);
-		string secondStr = (i + 1 < mEncryption.size()) ? string(1, mEncryption[i + 1]) : "x";
+	vector<string> checkStr;
 
-		if ((firstStr == string(1, this->mPair.at(0)) || (firstStr == string(1, this->mPair.at(2))))) {
-			firstStr = this->mPair;
+	for (int i = 0; i < mEncryption.size();) {
+		// 첫 번째 문자 가져오기
+		string firstStr = (i< mEncryption.size()) ? string(1, mEncryption[i++]) : "x";
+		checkStr.push_back(firstStr);
+		// 중복된 문자일 경우 "x" 추가
+		if (i < mEncryption.size() && firstStr == string(1, mEncryption[i])&& checkStr.size()<=1) {
+			checkStr.push_back("X");
 		}
-		if ((secondStr == string(1, this->mPair.at(0)) || (secondStr == string(1, this->mPair.at(2))))) {
-			secondStr = this->mPair;
+		// 2개의 열이 채워졌으면 행으로 추가
+		if (checkStr.size() == 2) {
+			str.push_back(checkStr);
+			checkStr.clear();
 		}
-
-		str.push_back({ firstStr, secondStr });
 	}
+
+	// 남은 데이터를 처리
+	if (!checkStr.empty()) {
+		// 마지막 열 채우기
+		while (checkStr.size() < 2) {
+			checkStr.push_back("x");
+		}
+		str.push_back(checkStr);
+	}
+
+	for (const auto& row : str) {
+		for (const auto& elem : row) {
+			cout << "\"" << elem << "\"" << " ";
+		}
+		cout<< endl;
+	}
+
 
 	for (int i = 0; i < str.size(); i++) {
 		// 두 문자의 좌표를 계산

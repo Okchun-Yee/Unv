@@ -4,8 +4,9 @@
 
 int main() {
 	Playfair key("assasinator", "q/z");
-	//key.showTable();
-	string afterKey = key.makeEncryption("whatiskey");
-	cout << "whatiskey - > " << afterKey;
+	key.showTable();
+	string nomalKey = "ssaa";
+	string afterKey = key.makeEncryption(nomalKey);
+	cout << nomalKey << " -> " << afterKey;
 	return 0;
 }
