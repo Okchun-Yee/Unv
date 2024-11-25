@@ -1,6 +1,5 @@
 #include "playfair.h"
 #include <iostream>
-#include <iomanip> // std::setw 포함
 #include <vector> //가변길이 배열 사용
 #include <map> //딕셔너리 구조 사용
 #include <string>
@@ -71,13 +70,24 @@ string Playfair::makeEncryption(string mEncryption) {
 	vector<vector<string>> str;
 	vector<string> checkStr;
 
-	for (int i = 0; i < mEncryption.size();) {
-		// 첫 번째 문자 가져오기
+	for (int i = 0; i < mEncryption.size();){
 		string firstStr = (i< mEncryption.size()) ? string(1, mEncryption[i++]) : "x";
+		if ((firstStr == string(1, this->mPair.at(0))
+			|| (firstStr == string(1, this->mPair.at(2))))) {
+			firstStr = this->mPair;
+		}
+		// 첫 번째 문자 가져오기
 		checkStr.push_back(firstStr);
 		// 중복된 문자일 경우 "x" 추가
-		if (i < mEncryption.size() && firstStr == string(1, mEncryption[i])&& checkStr.size()<=1) {
-			checkStr.push_back("X");
+		if (i < mEncryption.size() 
+			&& firstStr == string(1, mEncryption[i])
+			&& checkStr.size()<=1) {
+			checkStr.push_back("x");
+		}
+		else if ((i < mEncryption.size()&& firstStr == this->mPair)
+			&& (mEncryption[i] == this->mPair.at(0) || mEncryption[i] == this->mPair.at(2))
+			&& checkStr.size() <= 1) {
+			checkStr.push_back("x");
 		}
 		// 2개의 열이 채워졌으면 행으로 추가
 		if (checkStr.size() == 2) {
@@ -95,12 +105,12 @@ string Playfair::makeEncryption(string mEncryption) {
 		str.push_back(checkStr);
 	}
 
-	for (const auto& row : str) {
+	/*for (const auto& row : str) {
 		for (const auto& elem : row) {
 			cout << "\"" << elem << "\"" << " ";
 		}
 		cout<< endl;
-	}
+	}*/
 
 
 	for (int i = 0; i < str.size(); i++) {
