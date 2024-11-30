@@ -152,9 +152,11 @@ int gameBase(int cardNum[], const char* cardImage[], SDL_Renderer* renderer, SDL
             cout << "Failed to load image " << cardImage[(cardNum[i] + 1) % CARDSIZE] << ": " << IMG_GetError() << endl;
             return 0;
         }
+
         obj[i].setTexture(SDL_CreateTextureFromSurface(renderer, imageSurface[i]));
         SDL_RenderCopy(renderer, obj[i].getTexture(), NULL, obj[i].getRect());
     }
+
     // 화면에 두 번째 렌더링 (새로운 이미지)
     SDL_RenderPresent(renderer);
 
