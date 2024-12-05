@@ -143,7 +143,6 @@ int readLine(string sen, instruction* insTable) {
 		line.label = op[0];
 		line._operator = op[1];
 		for (int i = 2; i < index; i++) line.operand[i - 2] = op[i];
-	}
 
 	if (cnt == MAX_INS)index = cnt;
 	else index = 0;
