@@ -25,13 +25,15 @@ class symbolTable {
 	int lc;
 public:
 	string data;
-	symbolTable(string symbolName, char dataType, int lc, string symData) {
-		this->symbol = symbolName;
-		this->wordType = dataType;
-		this->lc = lc;
-		data = symData;
+	void setSymbol(string symName) {
+		this->symbol = symName;
 	}
-
+	void setType(char type) {
+		this->wordType = type;
+	}
+	void setLC(int loCnt) {
+		this->lc = loCnt;
+	}
 	string getSymbol() {
 		return this->symbol;
 	}
@@ -67,9 +69,12 @@ public:
 //함수 선언
 FILE* File_Open_Read(const char*);  //파일 오픈
 FILE* File_Open_Write(const char* name);
-
-void passFrist(FILE* fp);
-void Initialize(instruction* );
+string binaryToHex(const char* binaryStr);
+int readLine(string sen, instruction* insTable, sentence&);
+int passFrist(int ,char* , instruction* , symbolTable* , sentence& ,int* );
+int passSecond(int, char*, instruction*, symbolTable*, sentence&, registerClass*);
+void Initialize(instruction*, registerClass*);
+int btoi(char* );
 
 extern const char* reigsterArr[];	//레지스터 정의
 extern const char* instructionArr[];	//명령어 정의
