@@ -154,6 +154,11 @@ int readLine(string sen, instruction* insTable, sentence& line) {
 		for (int i = 0; i < 2; i++)line.operand[i] = op[i + 2];
 	}
 	index = 0;
+
+
+
+
+
 	strcpy(insTable[0].instruct, op[index].c_str());
 
 	switch (Analyze(op[index + 1]))
