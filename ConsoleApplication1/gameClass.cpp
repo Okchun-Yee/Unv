@@ -32,7 +32,7 @@ void gameClass::updatePosition() {
 }
 
 void clear() {
-    Sleep(500);
+    Sleep(1000);
     system("cls");
 }
 
@@ -56,28 +56,13 @@ void gameExit(int& quit, int& cnt) {
     quit = 1;
     cnt = 0;  // 종료 시 cnt 초기화
 }
-int gameBase(int cardNum[], const char* cardImage[], SDL_Renderer* renderer, SDL_Surface* imageSurface[], gameClass* obj) {
-    cout << "== Game Start ==" << endl;
 
-    int cardtemp[CARDSIZE];
+int firstGame(int cardNum[], const char* cardImage[], SDL_Renderer* renderer, SDL_Surface* imageSurface[], gameClass* obj) {
+    cout << "== Game Start ==" << endl;
     srand(static_cast<unsigned int>(time(NULL)));  // 난수 시드 한 번만 설정
 
-    // 난수를 사용해 크기를 랜덤하게 지정해, 순서 예측을 불가능하게 생성
-    for (int i = 0; i < CARDSIZE; i++) cardtemp[i] = rand() % 100;
-
-    // 난수 크기대로 정렬
-    for (int i = CARDSIZE - 1; i > 0; i--) {
-        for (int j = 0; j < i; j++) {
-            if (cardtemp[j] > cardtemp[j + 1]) {
-                int temp = cardtemp[j];
-                cardtemp[j] = cardtemp[j + 1];
-                cardtemp[j + 1] = temp;
-
-                temp = cardNum[j];
-                cardNum[j] = cardNum[j + 1];
-                cardNum[j + 1] = temp;
-            }
-        }
+    for (int i = 0; i < CARDSIZE; i++) {
+        cardNum[i] = i;
     }
 
     // 이미지 불러오기
@@ -98,7 +83,7 @@ int gameBase(int cardNum[], const char* cardImage[], SDL_Renderer* renderer, SDL
     }
 
     // 랜덤하게 배치할 카드 수 (3~7장)
-    int randomCheck = 3 + rand() % 5; // 3~7 중 랜덤 생성
+    int randomCheck = 8 + rand() % 3; // 8~12 중 랜덤 생성
 
     // 화면을 4등분 (2x2)으로 나누어 각 구역에 랜덤하게 카드 배치
     int numRows = 4; // 행 수
@@ -111,14 +96,14 @@ int gameBase(int cardNum[], const char* cardImage[], SDL_Renderer* renderer, SDL
         // 각 카드에 대해 랜덤으로 배치할 구역 선택
         int randX = rand() % numRows;
         int randY = rand() % numCols;
-        cout << randX << "\t" << randY << endl;
+        //cout << randX << "\t" << randY << endl;
         int retryCount = 0;
         //좌표 중복 검사, 중복일 경우 사용
         while (find(usedPositions.begin(),usedPositions.end(), make_pair(randX, randY))!= usedPositions.end()) {
             // 중복된 좌표가 발견되면 새로 생성
             randX = rand() % numRows;;
             randY = rand() % numCols;
-            cout << randX << "\t" << randY << endl;
+            //cout << randX << "\t" << randY << endl;
             retryCount++;
             if (retryCount > 16) {
                 cout << "Over 16time..." << endl;
@@ -138,16 +123,16 @@ int gameBase(int cardNum[], const char* cardImage[], SDL_Renderer* renderer, SDL
         SDL_Delay(1000);
     }
 
-    //화면에 표시된 수 만큼의 딜레이
+    //화면에 표시된 수 만큼의 딜레이 
     for (int i = 0; i < randomCheck; i++) {
-        clear();
         cout << i + 1 << "s" << endl;
+        clear();
     }
 
     // 새로운 이미지 렌더링 (예시로 다른 이미지 사용)
     for (int i = 0; i < randomCheck; i++) {
         // 새로운 이미지 로드 및 렌더링
-        imageSurface[i] = IMG_Load("images/free01.png");  // 다른 이미지로 변경
+        imageSurface[i] = IMG_Load("images/character_0.png");  // 다른 이미지로 변경
         if (imageSurface[i] == NULL) {
             cout << "Failed to load image " << cardImage[(cardNum[i] + 1) % CARDSIZE] << ": " << IMG_GetError() << endl;
             return 0;
@@ -160,11 +145,11 @@ int gameBase(int cardNum[], const char* cardImage[], SDL_Renderer* renderer, SDL
     // 화면에 두 번째 렌더링 (새로운 이미지)
     SDL_RenderPresent(renderer);
 
-    updateGame(cardNum, cardImage, renderer, imageSurface, obj, selectedCard);
+    updateFirstGame(cardNum, cardImage, renderer, imageSurface, obj, selectedCard);
     return 1;
 }
 
-void updateGame(int cardNum[], const char* cardImage[],SDL_Renderer* renderer, SDL_Surface* imageSurface[], gameClass* obj, vector<int>selectedCard) {
+void updateFirstGame(int cardNum[], const char* cardImage[],SDL_Renderer* renderer, SDL_Surface* imageSurface[], gameClass* obj, vector<int>selectedCard) {
     SDL_Event event;
     int quit = 0;
     int falseCnt = 0, maxFalseCnt = 10;
@@ -181,7 +166,7 @@ void updateGame(int cardNum[], const char* cardImage[],SDL_Renderer* renderer, S
                 }
             }
             if (event.type == SDL_MOUSEBUTTONDOWN) {
-                printf("Mouse : (%d,%d)\n", event.button.x, event.button.y);
+                //printf("Mouse : (%d,%d)\n", event.button.x, event.button.y);
                 //게임 조건 : falseCnt가 30회 보다 적어야함, 넘어가면 게임 실패
                 if (cnt < selectedCard.size()&& falseCnt < maxFalseCnt) {
                     for (int i = 0; i < CARDSIZE; i++) {
@@ -211,7 +196,6 @@ void updateGame(int cardNum[], const char* cardImage[],SDL_Renderer* renderer, S
                         orignLoad(cardNum[i], cardImage[cardNum[i]], renderer, imageSurface[i], obj[i]);
                     }
                     quit = 1;
-                    clear();
                 }
             }
         }

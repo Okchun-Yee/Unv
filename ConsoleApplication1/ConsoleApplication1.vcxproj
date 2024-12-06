@@ -135,6 +135,8 @@
   <ItemGroup>
     <ClCompile Include="gameClass.cpp" />
     <ClCompile Include="gameMain.cpp" />
+    <ClCompile Include="secondGame.cpp" />
+    <ClCompile Include="thirdGame.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="gameClass.h" />
