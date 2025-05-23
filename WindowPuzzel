@@ -1,0 +1,90 @@
+import cv2
+import random
+import matplotlib.pyplot as plt
+import AstarPuzzel
+
+# 퍼즐 초기화
+start1 = ['1', '2', '3', '4', '5', '6', '7', '8', '0']
+start2 = random.sample(start1, 9)
+cur = [start2[0:3], start2[3:6], start2[6:]]
+goal = [['1', '2', '3'], ['4', '5', '6'], ['7', '8', '0']]
+
+def movePuzzle(puzzle, x, y, oper):
+    if oper == 'up' and x > 0:
+        puzzle[x][y], puzzle[x-1][y] = puzzle[x-1][y], puzzle[x][y]
+    elif oper == 'down' and x < 2:
+        puzzle[x][y], puzzle[x+1][y] = puzzle[x+1][y], puzzle[x][y]
+    elif oper == 'left' and y > 0:
+        puzzle[x][y], puzzle[x][y-1] = puzzle[x][y-1], puzzle[x][y]
+    elif oper == 'right' and y < 2:
+        puzzle[x][y], puzzle[x][y+1] = puzzle[x][y+1], puzzle[x][y]
+
+def checkZero(puzzle):
+    x, y = 0, 0
+    for i in range(3):
+        for j in range(3):
+            if puzzle[i][j] == '0':
+                x, y = i, j
+    return x, y
+
+def showPuzzle():
+    fig, axes = plt.subplots(3, 3, figsize=(4, 4))
+
+    def redraw():
+        for i in range(3):
+            for j in range(3):
+                axes[i][j].clear()
+                img = cv2.imread(f'Asset/num_{cur[i][j]}.png')
+                if img is not None:
+                    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+                    axes[i][j].imshow(img)
+                axes[i][j].axis('off')
+        fig.canvas.draw()
+
+    def add_point(event):
+        for i in range(3):
+            for j in range(3):
+                if event.inaxes == axes[i][j]:
+                    zx, zy = checkZero(cur)
+                    dx, dy = i - zx, j - zy
+                    if abs(dx) + abs(dy) == 1:
+                        direction = ''
+                        if dx == -1: direction = 'down'
+                        elif dx == 1: direction = 'up'
+                        elif dy == -1: direction = 'right'
+                        elif dy == 1: direction = 'left'
+                        movePuzzle(cur, i, j, direction)
+                        redraw()
+                        if cur == goal:
+                            print("🐼 퍼즐 완성!")
+                    break
+
+    # ✅ A* 알고리즘으로 자동 풀이
+    def auto_solve(event):
+        path = AstarPuzzel.astar(cur)
+        for state in path:
+            for i in range(3):
+                for j in range(3):
+                    cur[i][j] = state[i][j]
+            redraw()
+            plt.pause(0.3)
+
+        # ✅ 정답 상태로 마지막 출력
+        for i in range(3):
+            for j in range(3):
+                cur[i][j] = goal[i][j]
+        redraw()
+        print("🎯 자동 풀이 완료 및 정답 이미지로 정리됨!")
+
+    # 이벤트 연결
+    fig.canvas.mpl_connect('button_press_event', add_point)
+    fig.canvas.mpl_connect('key_press_event', auto_solve)
+
+    plt.subplots_adjust(left=0.01, bottom=0.01, right=0.99, top=0.99, wspace=0.01, hspace=0.01)
+    plt.suptitle("클릭 = 수동 이동 / 아무 키 = 자동 풀이 시작")
+    redraw()
+    plt.show()
+
+
+# 실행
+showPuzzle()
