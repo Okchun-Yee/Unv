@@ -8,6 +8,10 @@
     4. 자동차가 "벽"과 충돌한다고 감지하는 거리는 30cm -> 30cm 이내로 접근을 할 시 경고음 부저와 함께 정지
     5. 이후 왼쪽 90도 거리측정 => 오른쪽 90도 거리 측정 후 두 거리값을 비교해 더 먼 곳으로 이동 (Left vs Right)
     6. 위 과정이 무한으로 반복하며 충돌하지 않고 계속 해서 주행이 가능하다.
+### 기능 상세
+    - Forward : 초음파 센서를 0.5s 간격으로 거리 탐색 이때 거리가 안전 거리 초과면 forward 실행
+    - 안전 거리 미만인 경우: 좌회전 (왼쪽 바퀴 역회전 & 오른쪽 바퀴 정회전) 이후 우회전 (왼쪽 바퀴 정회전 & 오른쪽 바퀴 역회전) * 2회 실행
+    - 두 거리값을 비교 후 더 먼 쪽으로 진행 (오른쪽인 경우 추가 동작 X forward 실행 / 왼쪽인 경우 좌회전 2회 후 forward 실행)
 
 ## 부품 설명
     1. Raspberry Pi 3 모델을 사용
@@ -18,3 +22,9 @@
 
 ## 외형 및 구조
 ![em2](https://github.com/user-attachments/assets/08f7b461-7281-4e5a-a8fa-88c12bbd065a)  ![em1](https://github.com/user-attachments/assets/277dcc17-e0b0-4dd2-936f-de2103bf6ae5)
+
+## 주행 영상
+
+
+https://github.com/user-attachments/assets/4a0dc8dc-f7fb-4b8d-8fc5-1dbad0f10d7f
+
