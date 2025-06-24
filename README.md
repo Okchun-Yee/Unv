@@ -17,4 +17,4 @@
     5. 7 segment 를 사용해서 현재 속력 값을 표시
 
 ## 외형 및 구조
-![KakaoTalk_20250624_215410928_01](https://github.com/user-attachments/assets/91935d54-f035-4820-9fb3-037e927d0a14)
+![em2](https://github.com/user-attachments/assets/08f7b461-7281-4e5a-a8fa-88c12bbd065a)  ![em1](https://github.com/user-attachments/assets/277dcc17-e0b0-4dd2-936f-de2103bf6ae5)
