@@ -1,0 +1,55 @@
+op reg16 num 
+op reg16 num 
+op reg8 num 
+
+op reg8 reg8 
+op reg16 reg16 
+
+sym op reg16 sym 
+op reg16 sym 
+
+op sym reg16 
+op sym reg16 
+op sym reg16 
+op sym reg16 
+
+op sym 
+op sym 
+
+op reg16 num 
+op reg16 num 
+op reg8 num 
+op reg16 reg16 reg16 
+
+op reg16 reg16 
+op reg16 reg16 
+
+sym op reg16 num 
+sym op reg16 reg16 
+op reg16 reg16 
+op reg16 reg16 
+
+sym op reg16 sym 
+sym op reg16 sym 
+
+op sym reg16 
+op sym reg16 
+
+sym op sym reg16 
+sym op sym reg16 
+
+op sym 
+op sym 
+op sym 
+op sym 
+op sym 
+
+op reg16 
+op reg16 
+
+op num 
+
+sym op num 
+sym op num 
+sym op num 
+sym op num 
